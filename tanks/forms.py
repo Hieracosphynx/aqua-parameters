@@ -1,5 +1,7 @@
 from django import forms
-from .models import Tank, Fertilizer
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
+from .models import User, Tank, Fertilizer
 
 
 class TankForm(forms.ModelForm):
@@ -13,3 +15,9 @@ class FertilizerForm(forms.ModelForm):
     class Meta:
         model = Fertilizer
         fields = ('brand', 'type')
+
+
+class UserCreateForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', )

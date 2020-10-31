@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.views.generic.edit import CreateView
+from django.urls import reverse, reverse_lazy
 
 from django.contrib.auth.models import User
-from .forms import TankForm, FertilizerForm
+from .forms import TankForm, FertilizerForm, UserCreateForm
 from .models import Tank, Fertilizer
 # Create your views here.
 
@@ -13,8 +14,14 @@ def index(request):
     return HttpResponse('This is the index')
 
 
+class SignUpView(CreateView):
+    form_class = UserCreateForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
+
+
 @login_required()
-def tankcreation(request):
+def tankcreation(request, form):
     if request.user.is_authenticated:
         if request.method == 'GET':
             form = TankForm()
@@ -56,9 +63,19 @@ def fertilizercreation(request):
 def tanklist(request):
     if request.user.is_authenticated:
         tanklist = Tank.objects.all().filter(owner_id=request.user.id)
-        tlist = {'tanks': tanklist}
-        return render(request, 'tanks/tank-list.html', context=tlist)
-
+        if request.method == 'GET':
+            form = TankForm
+            tlist = {'tanks': tanklist, 'form': form}
+            return render(request, 'tanks/tank-list.html', context=tlist)
+        elif request.method == 'POST':
+            form = TankForm(request.POST)
+            if form.is_valid():
+                alias = request.POST['alias']
+                gallons = request.POST['gallons']
+                user_id = User.objects.get(pk=request.user.id)
+                newTank = Tank(owner_id=user_id, alias=alias, gallons=gallons)
+                newTank.save()
+                return HttpResponseRedirect(reverse('tank-list'))
     else:
         return render(request, 'tanks/index.html')
 

@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = 'tank-index'
+LOGIN_REDIRECT_URL = 'tank-list'
 LOGIN_URL = 'login'
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -125,5 +125,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    TEMPLATE_DIR,
+    STATIC_DIR,
 ]

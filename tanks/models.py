@@ -16,6 +16,7 @@ class Tank(models.Model):
     def __str__(self):
         return self.alias
 
+
 class Fertilizer(models.Model):
     brand = models.CharField(max_length=100)
     type = models.CharField(max_length=100)

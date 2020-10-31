@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table>
+        <tr>
+            <th>Aquarium Name</th>
+            <th>Gallons</th>
+        </tr>
+        {% for tank in tanks %}
+            <tr>
+                <td>{{tank.alias}}</td>
+                <td>{{tank.gallons}}</td>
+                <td>
+                    <form action="{{tank.id}}/update/">
+                        <button type="submit" class="btn btn-block btn-dark">UPDATE</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{tank.id}}/delete/">
+                        <button type="submit" class="btn btn-block btn-danger">DELETE</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

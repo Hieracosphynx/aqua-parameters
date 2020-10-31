@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <p>{{tank.alias}}</p>
+        <p>{{tank.gallons}}</p>
+        <button type="submit" class="btn btn-block btn-danger">DELETE</button>
+    </form>
+{% endblock %}
